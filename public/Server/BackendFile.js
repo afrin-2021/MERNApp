@@ -23,11 +23,9 @@ MongoClient.connect(url, function (err, db) {
     var dbo = db.db("HealthDatabase");
 
     app.post("/insert/provider-details", (req, res) => {
+
       try {
-        
-     
         var fileName = req.body.name;
-        
         var workbook = XLSX.readFile(fileName);
         var sheetList = workbook.SheetNames;
         var xlData = XLSX.utils.sheet_to_json(workbook.Sheets[sheetList[0]]);
@@ -35,16 +33,17 @@ MongoClient.connect(url, function (err, db) {
           if (err) throw err;
         });
         res.send("File uploaded successfully");
-      } catch (error) {
+      } 
+      catch (error) {
         res.send("Error")
-      }
+        }
       });
 
 
   app.get("/get/location_details",(req,res) =>{
     try {
         dbo.collection("ProviderCollection")
-      .aggregate(
+        .aggregate(
         [
           { $group:
               {
